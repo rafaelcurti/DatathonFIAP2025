@@ -1,7 +1,26 @@
+
+import os
+import json
+import pandas as pd
+
+def load_applicants_from_parts(base_path="data"):
+    parts = ["applicants_part_1.json", "applicants_part_2.json", "applicants_part_3.json"]
+    all_data = {}
+    for part in parts:
+        with open(os.path.join(base_path, part), "r", encoding="utf-8") as f:
+            data = json.load(f)
+            all_data.update(data)
+    df = pd.DataFrame.from_dict(all_data, orient="index").reset_index()
+    df = df.rename(columns={"index": "applicant_id"})
+    return df
+
+
+# --- CÓDIGO ORIGINAL ---
+
 import json
 import pandas as pd
 import re
-
+import os
 
 def mapear_area(area):
     area = area.lower()
@@ -36,10 +55,19 @@ def load_json(path):
     with open(path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
+def load_multiple_jsons(paths):
+    combined = {}
+    for path in paths:
+        if os.path.exists(path):
+            data = load_json(path)
+            combined.update(data)
+    return combined
+
 def flatten_applicants(applicants):
     rows = []
     for id_, data in applicants.items():
-        row = {            "applicant_id": id_,
+        row = {
+            "applicant_id": id_,
             "nome": data["infos_basicas"].get("nome", ""),
             "email": data["infos_basicas"].get("email", ""),
             "nivel_academico": data["formacao_e_idiomas"].get("nivel_academico", ""),
@@ -72,7 +100,6 @@ def flatten_jobs(jobs):
         rows.append(row)
     return pd.DataFrame(rows)
 
-
 def flatten_prospects(prospects):
     rows = []
     for job_id, data in prospects.items():
@@ -88,10 +115,16 @@ def flatten_prospects(prospects):
             })
     return pd.DataFrame(rows)
 
-def merge_all(applicants_path, jobs_path, prospects_path):
-    applicants = flatten_applicants(load_json(applicants_path))
+def merge_all(applicants_paths, jobs_path, prospects_path):
+    applicants_raw = load_applicants_from_parts(base_path="data")
+    applicants = flatten_applicants(applicants_raw.to_dict(orient="index"))
+
     jobs = flatten_jobs(load_json(jobs_path))
     prospects = flatten_prospects(load_json(prospects_path))
+    
+    applicants["applicant_id"] = applicants["applicant_id"].astype(str)
+    prospects["applicant_id"] = prospects["applicant_id"].astype(str)
+
     merged = prospects.merge(applicants, on="applicant_id", how="left")
     merged = merged.merge(jobs, on="job_id", how="left")
     return merged, applicants, jobs

@@ -12,7 +12,12 @@ st.title("🤖 IA para Recrutamento - Decision")
 
 @st.cache_resource
 def load_model_and_data():
-    merged, applicants, jobs = merge_all("data/applicants.json", "data/jobs.json", "data/prospects.json")
+    applicants_paths = [
+        "data/applicants_part1.json",
+        "data/applicants_part2.json",
+        "data/applicants_part3.json"
+    ]
+    merged, applicants, jobs = merge_all(applicants_paths, "data/jobs.json", "data/prospects.json")
     if os.path.exists("app/model.joblib"):
         model, tfidf, svd_obj = joblib.load("app/model.joblib")
     else:
@@ -61,9 +66,7 @@ if menu == "🏆 Ranking por Vaga":
             top_candidatos = candidatos_vaga[candidatos_vaga["score_match"] >= min_score]
             top_candidatos = top_candidatos.sort_values("score_match", ascending=False).head(qtd)
 
-            st.markdown("ℹ️ O score representa a **probabilidade estimada de contratação**, variando de `0.0` a `1.0`. Quanto maior, melhor o match.")
-   
-            
+                        
     if top_candidatos.empty:
         st.warning("⚠️ Nenhum candidato atende aos critérios definidos.")
     else:
