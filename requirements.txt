@@ -1,0 +1,8 @@
+streamlit
+scikit-learn
+pandas
+imbalanced-learn
+joblib
+nltk
+matplotlib
+xlsxwriter
