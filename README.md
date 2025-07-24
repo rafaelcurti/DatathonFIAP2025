@@ -1,117 +1,90 @@
-# 🤖 Decision AI - MVP para Recrutamento Inteligente
+# Decision.AI – Recomendação Inteligente de Candidatos
 
-Este projeto é um MVP (Minimum Viable Product) construído para o **Datathon da FIAP**, em parceria com a **Decision**, empresa especializada em recrutamento de profissionais de TI.
+Este projeto foi desenvolvido como parte do Datathon da FIAP, com o objetivo de otimizar o processo de recrutamento da empresa **Decision** — especializada em bodyshop e alocação de profissionais de TI. Utilizamos **inteligência artificial** para recomendar os candidatos com maior compatibilidade para cada vaga.
 
-A solução utiliza **Inteligência Artificial** para **recomendar os candidatos mais aderentes às vagas disponíveis**, com base em análise de currículos e requisitos técnicos. A interface interativa foi construída com **Streamlit**, e o deploy está preparado para ser executado via **Docker**.
+## 🚀 Funcionalidades
 
----
+- 🔎 Análise de currículo com processamento de linguagem natural (NLP)
+- 🧠 Recomendação de candidatos baseada em similaridade textual (TF-IDF + SVD)
+- ✅ Filtro por nível de match e quantidade de candidatos
+- 📊 Dashboards interativos com métricas e distribuição por áreas
+- 🔄 Armazenamento local de candidatos para futuras buscas
+- 📌 Identificação de perfis com maior chance de contratação com base em histórico
 
-## 📌 Funcionalidades
+## 🧰 Tecnologias Utilizadas
 
-- ✅ Ranking de candidatos por vaga com **score de aderência**
-- 📊 Dashboards com indicadores gerais (nível de inglês, área de atuação, número de contratados etc.)
-- 🧠 Treinamento de modelo preditivo com **LightGBM** e processamento de texto com **TF-IDF + SVD**
-- 📦 Projeto preparado para execução local e em contêiner Docker
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-- Python 3.10
+- Python 3.11
 - Streamlit
-- Pandas
-- Scikit-learn
-- LightGBM
-- XGBoost
-- Joblib
-- Matplotlib / Seaborn
-- Docker
-
----
+- Scikit-learn (TF-IDF, SVD, LightGBM)
+- Pandas / Numpy
+- Matplotlib / Plotly
+- Git / GitHub
+- Docker (opcional)
 
 ## 📁 Estrutura do Projeto
 
 ```
-decision_mvp/
-├── app/
-│   ├── main.py                # Aplicação principal em Streamlit
-│   ├── model_train.py         # Treinamento e salvamento do modelo
-│   ├── data_preparation.py    # Tratamento e junção das bases
-│   └── model.joblib           # Modelo treinado
-├── data/
-│   ├── applicants.json        # Base de candidatos
-│   ├── jobs.json              # Base de vagas
-│   ├── prospects.json         # Histórico de entrevistas
-├── Dockerfile                 # Container Docker
-├── requirements.txt           # Bibliotecas do Python
-└── README.md                  # Este arquivo
+decision_ai/
+│
+├── app/                        # Aplicação principal em Streamlit
+│   ├── main.py                 # Interface principal
+│   ├── data_preparation.py     # Funções de carregamento e transformação
+│   └── utils/                  # Scripts auxiliares
+│
+├── data/                       # Dados originais do desafio
+│   ├── applicants_part_1.json
+│   ├── applicants_part_2.json
+│   ├── applicants_part_3.json
+│   ├── jobs.json
+│   └── prospects.json
+│
+├── models/                     # Modelos de ML treinados (.pkl)
+│
+├── requirements.txt            # Dependências do projeto
+└── README.md                   # Este arquivo
 ```
 
----
-
-## 🚀 Como Executar o Projeto
-
-### 🔧 Ambiente Local
+## 🏁 Como Executar Localmente
 
 1. Clone o repositório:
-```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd decision_ai
-```
+   ```bash
+   git clone https://github.com/seu-usuario/decision_ai.git
+   cd decision_ai
+   ```
 
-2. Crie o ambiente virtual (recomendado):
-```bash
-python -m venv venv
-source venv/bin/activate  # ou venv\Scripts\activate no Windows
-```
+2. Crie e ative um ambiente virtual:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # Linux/macOS
+   .venv\Scripts\activate   # Windows
+   ```
 
 3. Instale as dependências:
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-4. Execute o Streamlit:
-```bash
-streamlit run app/main.py
-```
+4. Execute o app:
+   ```bash
+   streamlit run app/main.py
+   ```
 
----
+## 🧪 Testes e Validação
 
-### 🐳 Execução com Docker
+O modelo foi treinado com histórico de contratações reais, com balanceamento de classes e validação cruzada. Métricas como acurácia e F1-score foram utilizadas para avaliar os modelos.
 
-1. **Build da imagem:**
-```bash
-docker build -t decision-ai
-```
-
-2. **Execute o contêiner:**
-```bash
-docker run -p 8501:8501 decision-ai
-```
-
-Acesse no navegador: [http://localhost:8501](http://localhost:8501)
-
----
-
-## 🧠 Modelo de IA
-
-O modelo preditivo foi treinado com dados históricos de candidatos, utilizando:
-- Vetorização textual com **TF-IDF**
-- Redução de dimensionalidade com **SVD**
-- Classificação com **LightGBM**
-- Balanceamento de classes e métricas de performance avaliadas
-
----
-
-## 👨‍💼 Consultores Responsáveis
+## 🤝 Colaboradores
 
   - Ozir José Azevedo Junior 
   - Paloma Cristina Pinheiro
   - Rafael Curti Barros
   - Rilciane de Sousa Bezerra
 
----
+## 📌 Observações
 
-## 📄 Licença
+- A base `applicants.json` foi dividida em 3 partes para viabilizar o versionamento no GitHub.
+- Perfis considerados como "positivos" para o treinamento incluem: `Contratado pela Decision`, `Proposta Aceita`, `Aprovado`, `Contratado como Hunting`, `Desistiu da Contratação`.
+
+## 📝 Licença
 
 Este projeto é apenas para fins educacionais e de demonstração. Todos os dados foram fornecidos exclusivamente para uso no Datathon FIAP 2025.
