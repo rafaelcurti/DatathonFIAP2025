@@ -11,7 +11,6 @@ A solução utiliza **Inteligência Artificial** para **recomendar os candidatos
 - ✅ Ranking de candidatos por vaga com **score de aderência**
 - 📊 Dashboards com indicadores gerais (nível de inglês, área de atuação, número de contratados etc.)
 - 🧠 Treinamento de modelo preditivo com **LightGBM** e processamento de texto com **TF-IDF + SVD**
-- 💾 Suporte a novos dados de candidatos e vagas
 - 📦 Projeto preparado para execução local e em contêiner Docker
 
 ---
@@ -57,7 +56,7 @@ decision_mvp/
 1. Clone o repositório:
 ```bash
 git clone https://github.com/seu-usuario/seu-repositorio.git
-cd decision_mvp
+cd decision_ai
 ```
 
 2. Crie o ambiente virtual (recomendado):
@@ -82,12 +81,12 @@ streamlit run app/main.py
 
 1. **Build da imagem:**
 ```bash
-docker build -t decision-mvp .
+docker build -t decision-ai
 ```
 
 2. **Execute o contêiner:**
 ```bash
-docker run -p 8501:8501 decision-mvp
+docker run -p 8501:8501 decision-ai
 ```
 
 Acesse no navegador: [http://localhost:8501](http://localhost:8501)
