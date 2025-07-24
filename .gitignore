@@ -1,6 +1,5 @@
 # Ignorar arquivos grandes e temporários
 __pycache__/
-*.pyc
 
-# Pasta com dados brutos
-data/
+# Pasta env
+.vscode/
