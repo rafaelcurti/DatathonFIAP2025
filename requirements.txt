@@ -6,3 +6,4 @@ joblib
 nltk
 matplotlib
 xlsxwriter
+lightgbm
